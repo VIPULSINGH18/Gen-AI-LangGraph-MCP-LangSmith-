@@ -1,0 +1,34 @@
+User input:
+str → add_messages → HumanMessage
+
+LLM output:
+llm.invoke() → AIMessage
+
+State update:
+add_messages → append, not overwrite
+
+
+
+
+
+final mental model for langgraph ful execution of chatbot...
+
+
+
+User input
+   ↓
+invoke()
+   ↓
+checkpointer.load(thread_id)
+   ↓
+add_messages merges old + new
+   ↓
+Node runs (llm.invoke)
+   ↓
+LLM returns AIMessage
+   ↓
+add_messages appends response
+   ↓
+checkpointer.save(thread_id)
+   ↓
+Next invoke sees full history
