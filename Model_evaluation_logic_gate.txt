@@ -1,0 +1,270 @@
+#Task 1: Model Experimentation and F1 score improvement with Pipeline based ML code-:
+
+# ===============================
+# 1. IMPORT LIBRARIES
+# ===============================
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import warnings
+warnings.filterwarnings("ignore")
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# ===============================
+# 2. LOAD DATASET
+# ===============================
+df = sns.load_dataset("titanic")
+
+# ===============================
+# 3. DATA CLEANING & PREPROCESSING
+# ===============================
+# Drop unnecessary columns
+df.drop(
+    ["deck", "embark_town", "alive", "class", "who", "adult_male"],
+    axis=1,
+    inplace=True
+)
+
+# Handle missing values
+df["age"].fillna(df["age"].mean(), inplace=True)
+df.dropna(subset=["embarked"], inplace=True)
+
+# Label Encoding
+le = LabelEncoder()
+df["sex"] = le.fit_transform(df["sex"])       # male=1, female=0
+df["embarked"] = le.fit_transform(df["embarked"])  # C=0, Q=1, S=2
+
+# Convert to integer
+df = df.astype(int)
+
+# ===============================
+# 4. TRAIN-TEST SPLIT
+# ===============================
+X = df.drop("survived", axis=1)
+y = df["survived"]
+
+x_train, x_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# ===============================
+# 5. EVALUATION & MONITORING HOOK
+# ===============================
+model_metrics = {}
+
+def evaluate_model(model_name, y_true, y_pred):
+    acc = accuracy_score(y_true, y_pred)
+    report = classification_report(y_true, y_pred, output_dict=True)
+
+    model_metrics[model_name] = {
+        "accuracy": acc,
+        "weighted_f1": report["weighted avg"]["f1-score"]
+    }
+
+    print(f"\n--- {model_name} ---")
+    print(f"Accuracy: {acc:.4f}")
+    print("Confusion Matrix:\n", confusion_matrix(y_true, y_pred))
+    print(classification_report(y_true, y_pred))
+
+
+# ===============================
+# 6. LOGISTIC REGRESSION PIPELINE
+# ===============================
+from sklearn.linear_model import LogisticRegression
+
+lr_pipeline = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model", LogisticRegression())
+])
+
+lr_pipeline.fit(x_train, y_train)
+y_pred_lr = lr_pipeline.predict(x_test)
+evaluate_model("Logistic Regression", y_test, y_pred_lr)
+
+
+# ===============================
+# 7. KNN PIPELINE
+# ===============================
+from sklearn.neighbors import KNeighborsClassifier
+
+knn_pipeline = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model", KNeighborsClassifier(n_neighbors=5))
+])
+
+knn_pipeline.fit(x_train, y_train)
+y_pred_knn = knn_pipeline.predict(x_test)
+evaluate_model("KNN", y_test, y_pred_knn)
+
+
+# ===============================
+# 8. DECISION TREE PIPELINE
+# ===============================
+from sklearn.tree import DecisionTreeClassifier
+
+dt_pipeline = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model", DecisionTreeClassifier(random_state=42))
+])
+
+dt_pipeline.fit(x_train, y_train)
+y_pred_dt = dt_pipeline.predict(x_test)
+evaluate_model("Decision Tree", y_test, y_pred_dt)
+
+
+# ===============================
+# 9. SUPPORT VECTOR MACHINE PIPELINE
+# ===============================
+from sklearn.svm import SVC
+
+svm_pipeline = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model", SVC(kernel="rbf"))
+])
+
+svm_pipeline.fit(x_train, y_train)
+y_pred_svm = svm_pipeline.predict(x_test)
+evaluate_model("SVM", y_test, y_pred_svm)
+
+
+# ===============================
+# 10. GRADIENT BOOSTING PIPELINE
+# ===============================
+from sklearn.ensemble import GradientBoostingClassifier
+
+gb_pipeline = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model", GradientBoostingClassifier(
+        n_estimators=200,
+        learning_rate=0.05,
+        max_depth=3,
+        random_state=42
+    ))
+])
+
+gb_pipeline.fit(x_train, y_train)
+y_pred_gb = gb_pipeline.predict(x_test)
+evaluate_model("Gradient Boosting", y_test, y_pred_gb)
+
+
+# ===============================
+# 11. FINAL MODEL MONITORING SUMMARY
+# ===============================
+print("\n===============================")
+print(" MODEL PERFORMANCE MONITORING ")
+print("===============================")
+
+for model, metrics in model_metrics.items():
+    print(
+        f"{model}: "
+        f"Accuracy = {metrics['accuracy']:.4f}, "
+        f"Weighted F1 = {metrics['weighted_f1']:.4f}"
+    )
+
+
+
+
+Task 2: Training and evaluation with Logic Gate implementation:
+
+import pandas as pd
+import seaborn as sns
+import joblib
+import json
+from datetime import datetime
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import classification_report
+
+# ===============================
+# LOAD BASELINE MODEL METRICS
+# ===============================
+with open("baseline_registry.json", "r") as f:
+    baseline = json.load(f)
+
+BASELINE_F1 = baseline["weighted_f1"]
+
+print(f"📌 Production Baseline F1-score: {BASELINE_F1}")
+
+# ===============================
+# LOAD & PREP DATA
+# ===============================
+df = sns.load_dataset("titanic")
+
+df.drop(
+    ["deck", "embark_town", "alive", "class", "who", "adult_male"],
+    axis=1,
+    inplace=True
+)
+
+df["age"].fillna(df["age"].mean(), inplace=True)
+df.dropna(subset=["embarked"], inplace=True)
+
+le = LabelEncoder()
+df["sex"] = le.fit_transform(df["sex"])
+df["embarked"] = le.fit_transform(df["embarked"])
+df = df.astype(int)
+
+X = df.drop("survived", axis=1)
+y = df["survived"]
+
+x_train, x_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# ===============================
+# TRAIN NEW MODEL
+# ===============================
+pipeline = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model", GradientBoostingClassifier(
+        n_estimators=200,
+        learning_rate=0.05,
+        max_depth=3,
+        random_state=42
+    ))
+])
+
+pipeline.fit(x_train, y_train)
+
+# ===============================
+# EVALUATE NEW MODEL
+# ===============================
+y_pred = pipeline.predict(x_test)
+report = classification_report(y_test, y_pred, output_dict=True)
+
+new_f1 = report["weighted avg"]["f1-score"]
+
+print(f"🆕 New Model Weighted F1-score: {new_f1:.4f}")
+
+# ===============================
+# LOGIC GATE (MANDATORY STEP)
+# ===============================
+if new_f1 >= BASELINE_F1:
+    decision = "APPROVED"
+    joblib.dump(pipeline, "model.pkl")
+    action = "Model saved & eligible for deployment"
+else:
+    decision = "REJECTED"
+    action = "Model NOT deployed (performance regression)"
+
+# ===============================
+# LOG DECISION (AUDIT TRAIL)
+# ===============================
+with open("decision.log", "a") as log:
+    log.write(
+        f"{datetime.now()} | "
+        f"Baseline F1={BASELINE_F1} | "
+        f"New F1={new_f1:.4f} | "
+        f"Decision={decision}\n"
+    )
+
+print(f"🚦 PIPELINE DECISION: {decision}")
+print(f"📦 ACTION: {action}")
+
