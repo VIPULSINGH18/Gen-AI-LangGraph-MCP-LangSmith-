@@ -1,0 +1,40 @@
+Made projects and have good understanding of AI/ML, DL,NLP , EDA and ETL pipelines, but don't have industry work experience. Actively looking for  this opprtunity.
+
+E-sports,Investment,
+Event-managemen
+
+1)SQL Data Warehouse 							          
+•Architected enterprise data warehouse with Medallion(Bronze/Silver/Gold) layers standardizing CRM/ERP data for   analytics.
+•Engineered ETL pipelines with SSIS, applied data wrangling and partitioning driving 40% faster processing.
+•Designed & optimized star/snowflake schemas with fact/dimension model, reducing query latency by 30%.
+•Delivered actionable insights through automated data validation and cleansing workflows ensuring 100% data integrity.
+
+2)ML-Driven Cardio Risk Prediction Pipeline                         
+•Architected a robust pipeline, leveraging Python for data cleaning, preprocessing, and feature scaling on 918 patient records.
+•Evaluated 5 supervised classification models, optimizing hyperparameters and achieving a top F1 score of 89.86% with KNN.
+•Enhanced model reliability and user experience, streamlining prediction workflow and accelerated assessment speed.
+•Engineered an interactive UI with Streamlit to capture patient metrics and deliver real-time diagnostic predictions.
+
+
+3)CNN-Based Image Recognition 
+•Build Perceptron, ANN, and CNN models on MNIST dataset, applying normalization and one-hot encoding to 70,000 images.
+•Implemented rigorous train/test validation schemes and model evaluation using scikit-learn, TensorFlow, Matplotlib.
+•Optimized deep learning pipelines and hyperparameters for multiclass digit image classification tasks.
+•Achieved 98.80% test accuracy with CNN, outperforming Perceptron (90.76%) and ANN (97.40%) models.
+
+
+4)Real-Time Face & Emotion Detection 
+•Implemented real-time face, eye, and smile detection using OpenCV Haarcascade classifiers on live video stream.
+•Applied image processing: grayscale conversion, ROI extraction and shape detection for enhanced facial recognition accuracy.
+•Utilized thresholding, contour mapping, and object detection for multi-feature analysis and emotion classification.
+•Achieved over 95% detection accuracy for facial features, enabling robust emotion recognition in dynamic environments.
+
+
+5)Sentiment Detection via ML-Based NLP 
+•Implemented end-to-end NLP pipeline with tokenization, stopword, and emoji removal on sentiment-labeled text data.
+•Engineered text features via Bag of Words and TF-IDF; applied label encoding for multi-class target transformation.
+•Developed and validated Naive Bayes and Logistic Regression models using stratified train/test split.
+•Achieved 74% accuracy with Bag of Words (Naive Bayes) and enhanced performance with TF-IDF on Logistic Regression
+ around 86% accuracy.
+
+
